@@ -1,158 +1,107 @@
-# 🔬 연구실안전관리시스템 (Lab Safety Management System)
+사용자관리 서브시스템 (SS-U)
 
-한국해양대학교 객체지향소프트웨어공학 1팀 구현 프로젝트입니다.
+브랜치: chayubi\_사용자관리
+담당: 차유비 (구현팀장)
+관련 UC: UC-U01 ~ UC-U05
+DB 테이블: USER_INFO
 
----
+📌 담당 기능 개요
+Use Case기능명주요 액터구현 상태UC-U01사용자 등록 신청연구활동종사자✅ 완료UC-U02등록 신청 처리관리자🔲 예정UC-U03사용자 정보 수정관리자🔲 예정UC-U04사용자 목록 조회관리자✅ 완료UC-U05사용자 상세 조회관리자, 연구실책임자✅ 완료
 
-## 👥 팀 구성 및 담당
+🗂 구현 파일 구조
+src/
+├── types/
+│ └── user.ts # UserEntity, UserDTO, SearchCondition 타입 정의
+│
+├── lib/
+│ ├── prisma.ts # Prisma 클라이언트 싱글톤
+│ ├── userRepository.ts # CLS-U-06: UserRepository (DB 접근)
+│ └── userService.ts # CLS-U-04: UserService (업무 로직)
+│
+└── app/
+├── layout.tsx # 공통 레이아웃 (헤더 네비게이션)
+├── page.tsx # 대시보드 홈
+│
+├── api/users/
+│ ├── route.ts # GET(UC-U04 목록조회) / POST(UC-U01 등록신청)
+│ └── [userId]/route.ts # GET(UC-U05 상세조회)
+│
+└── users/
+├── page.tsx # UC-U04: 사용자 목록 조회 화면
+├── register/page.tsx # UC-U01: 사용자 등록 신청 화면
+└── [userId]/page.tsx # UC-U05: 사용자 상세 조회 화면
 
-| 이름   | 역할     | 담당 서브시스템                                    | 브랜치                  |
-| ------ | -------- | -------------------------------------------------- | ----------------------- |
-| 정서인 | 팀장     | 연구실관리 (UC-L01~L17)                            | `seoin_연구실관리`      |
-| 차유비 | 구현팀장 | 사용자관리 (UC-U01~U05)                            | `chayubi_사용자관리`    |
-| 김민제 | 팀원     | 점검관리 (UC-I01~I04)                              | `minje_점검관리`        |
-| 김욱동 | 팀원     | 공통/형상관리                                      | `wookdong_공통`         |
-| 류아연 | 팀원     | 안전교육관리 (UC-E01~E19)                          | `ayeon_안전교육관리`    |
-| 김도흠 | 팀원     | 화학물질관리 + 폐기물관리 (UC-C01~C05, UC-W01~W06) | `doheum_화학폐기물관리` |
+🏗 설계 클래스 구조 (SDD v0.3 기준)
+사용자관리 (userManagement 패키지)
+│
+├── [Boundary] UserRegisterBoundary → /users/register/page.tsx
+├── [Boundary] UserSearchBoundary → /users/page.tsx
+├── [Control] UserControl → /app/api/users/route.ts (Next.js Route Handler)
+├── [Service] UserService → /lib/userService.ts
+├── [Repository] UserRepository → /lib/userRepository.ts
+├── [Entity] UserEntity → Prisma model USER_INFO
+└── [DTO] UserDTO, SearchCondition → /types/user.ts
 
----
+🔌 API 엔드포인트
+MethodEndpointUC설명POST/api/usersUC-U01사용자 등록 신청GET/api/usersUC-U04사용자 목록 조회GET/api/users/:userIdUC-U05사용자 상세 조회
+POST /api/users — 등록 신청
+Request Body
+json{
+"name": "홍길동",
+"department": "컴퓨터공학부",
+"role": "RESEARCHER",
+"email": "hong@kmou.ac.kr",
+"phone": "010-1234-5678",
+"reason": "연구실 안전교육 이수를 위한 계정 신청",
+"studentId": "20210001",
+"labName": "지능제어시스템 연구실"
+}
+Response
+json{
+"success": true,
+"data": { "userId": "RS-1717600000000" },
+"message": "등록 신청이 완료되었습니다."
+}
+GET /api/users — 목록 조회
+Query Param타입설명keywordstring이름/이메일 검색roleUserRole역할 필터departmentstring학부 필터
 
-## 🛠 기술 스택
+🗄 DB 테이블 명세 (USER_INFO)
+컬럼명타입설명user_idVARCHAR PK사용자 ID (자동생성: 역할코드-타임스탬프)nameVARCHAR이름departmentVARCHAR소속 학부/부서roleVARCHARADMIN / LAB_MANAGER / SAFETY_MANAGER / RESEARCHERemailVARCHAR UNIQUE이메일phoneVARCHAR NULL전화번호created_atTIMESTAMP생성일시updated_atTIMESTAMP수정일시
 
-### Frontend
+⚙️ 로컬 개발 세팅
+bash# 1. 브랜치 체크아웃
+git checkout chayubi\_사용자관리
 
-- **Next.js 14** (App Router)
-- **React 18**
-- **TypeScript**
-- **Tailwind CSS**
+# 2. 패키지 설치
 
-### Backend
-
-- **Next.js API Routes** (서버리스 백엔드)
-- **Prisma ORM v5.22.0**
-
-### Database
-
-- **PostgreSQL** (Supabase 클라우드 호스팅)
-- **Supabase** - `aws-1-ap-southeast-1` 리전
-
-### 개발 도구
-
-- **VSCode**
-- **Git / GitHub**
-- **Node.js v20**
-
----
-
-## 🗄 데이터베이스 구조
-
-SDD(소프트웨어 설계 명세서) v0.3 기준으로 설계된 테이블 6개입니다.
-
-| 테이블명           | 한글명           | 담당자 | 연관 UC    |
-| ------------------ | ---------------- | ------ | ---------- |
-| `USER_INFO`        | 사용자 정보      | 차유비 | UC-U01~U05 |
-| `LAB_INFO`         | 연구실 기준정보  | 정서인 | UC-L01~L17 |
-| `TB_CHEMICAL`      | 화학물질 정보    | 김도흠 | UC-C01~C05 |
-| `WASTE_REQUEST`    | 폐기물 배출 신청 | 김도흠 | UC-W01~W06 |
-| `DAILY_INSPECTION` | 일상점검 결과    | 김민제 | UC-I01~I04 |
-| `EDUCATION_COURSE` | 교육과정 정보    | 류아연 | UC-E01~E19 |
-
----
-
-## 📁 프로젝트 구조
-
-oose_1team/
-├── prisma/
-│ └── schema.prisma # DB 스키마 (테이블 6개 정의)
-├── src/
-│ ├── app/
-│ │ ├── api/ # Next.js API Routes (백엔드)
-│ │ │ └── users/ # 사용자관리 API
-│ │ ├── users/ # 사용자 관련 페이지
-│ │ └── admin/ # 관리자 페이지
-│ ├── lib/
-│ │ └── prisma.ts # Prisma 클라이언트 설정
-│ └── components/ # 공통 컴포넌트
-├── .env # 환경변수 (DB 연결 정보, git 제외)
-├── .gitignore
-├── package.json
-└── README.md
-
----
-
-## ⚙️ 로컬 개발 환경 세팅
-
-### 1. 레포 클론
-
-```bash
-git clone https://github.com/chyubi/OOSE_1TEAM.git
-cd OOSE_1TEAM
-```
-
-### 2. 패키지 설치
-
-```bash
 npm install
-```
 
-### 3. 환경변수 설정
+# 3. .env 파일 생성 (.env.example 참고, 팀장에게 실제 값 받기)
 
-프로젝트 루트에 `.env` 파일 생성 후 DB 연결 정보 입력
+cp .env.example .env
 
-```env
-DATABASE_URL="postgresql://postgres.[프로젝트ID]:[비밀번호]@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres"
-```
+# 4. Prisma 클라이언트 생성
 
-> `.env` 파일은 팀장(차유비)에게 직접 받으세요.
+npm run db:generate
 
-### 4. Prisma 클라이언트 생성
+# 5. DB 스키마 동기화 (개발 환경)
 
-```bash
-npx prisma generate
-```
+npm run db:push
 
-### 5. 개발 서버 실행
+# 6. 개발 서버 실행
 
-```bash
 npm run dev
-```
 
-브라우저에서 `http://localhost:3000` 접속
+# → http://localhost:3000
 
----
+🖥 화면 라우트
+URL화면UC/대시보드 홈-/users사용자 목록 조회UC-U04/users/register사용자 등록 신청UC-U01/users/:userId사용자 상세 조회UC-U05
 
-## 🌿 브랜치 전략
+🌿 작업 규칙
 
-main ← 최종 통합본 (직접 push 금지)
-├── chayubi*사용자관리 ← 차유비 작업 브랜치
-├── seoin*연구실관리 ← 정서인 작업 브랜치
-├── doheum*화학폐기물관리 ← 김도흠 작업 브랜치
-├── minje*점검관리 ← 김민제 작업 브랜치
-└── ayeon\_안전교육관리 ← 류아연 작업 브랜치
+chayubi\_사용자관리 브랜치에서만 작업
+기능 완성 후 main 브랜치로 Pull Request 생성
+커밋 메시지 형식: feat(users): UC-U01 등록 신청 폼 구현
+.env 파일은 절대 커밋 금지
 
-작업 완료 후 `main` 브랜치로 **Pull Request** 생성 → 팀장 검토 후 merge
-
----
-
-## 📋 시스템 개요
-
-**한국해양대학교 연구실안전관리시스템** 은 연구실 안전관리 관련 법적 의무사항을 전산화하는 웹 기반 업무지원 시스템입니다.
-
-### 주요 액터
-
-- **관리자** : 사용자 등록 처리, 전반적인 시스템 관리
-- **연구실책임자** : 점검결과 확인, 교육이수현황 조회
-- **연구실안전관리담당자** : 점검 수행, 폐기물 신청
-- **연구활동종사자** : 사용자 등록 신청, 온라인 교육 수강
-
-### 관련 산출물
-
-- PMP (프로젝트관리계획서) v1.1
-- SRS (소프트웨어요구사항명세서) v1.0
-- SDD (소프트웨어설계명세서) v0.3
-- STP (소프트웨어시험계획서) v0.1
-- STD (소프트웨어시험설계기술서) v0.1
-
-git add README.md
-git commit -m "docs: README 프로젝트 구조 및 세팅 설명 추가"
-git push origin 사용자명\_담당구현파트명
+객체지향소프트웨어공학 1팀 | 한국해양대학교 | SDD v0.3 기준
