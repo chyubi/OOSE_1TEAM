@@ -32,6 +32,17 @@ export class InspectionRepository {
     return inspectionId;
   }
 
+  // UC-I02: 점검 결과 확인 처리
+  async confirm(inspectionId: string): Promise<void> {
+    await prisma.dAILY_INSPECTION.update({
+      where: { inspectionId },
+      data: {
+        inspectionStatus: "CONFIRMED",
+        confirmDateTime: new Date(),
+      },
+    });
+  }
+
   async findByCondition(
     condition: InspectionSearchCondition,
   ): Promise<InspectionDTO[]> {

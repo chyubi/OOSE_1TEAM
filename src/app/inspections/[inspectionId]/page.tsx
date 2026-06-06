@@ -1,6 +1,7 @@
 "use client";
 
-// UC-I04: 점검 상세 조회 페이지
+// UC-I04: 점검 상세 조회
+// UC-I02: 점검 결과 확인 처리 (연구실책임자/관리자)
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -38,7 +39,9 @@ export default function InspectionDetailPage() {
 
   const [inspection, setInspection] = useState<InspectionDTO | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isConfirming, setIsConfirming] = useState(false);
   const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
   const [checklist, setChecklist] = useState<
     { id: string; item: string; result: string }[]
   >([]);
@@ -62,6 +65,30 @@ export default function InspectionDetailPage() {
       .catch(() => setError("네트워크 오류가 발생했습니다."))
       .finally(() => setIsLoading(false));
   }, [inspectionId]);
+
+  // UC-I02: 확인 처리
+  const handleConfirm = async () => {
+    if (!confirm("점검 결과를 확인 처리하시겠습니까?")) return;
+    setIsConfirming(true);
+    try {
+      const res = await fetch(`/api/inspections/${inspectionId}/confirm`, {
+        method: "PATCH",
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMsg("점검 결과가 확인 처리되었습니다.");
+        setInspection((prev) =>
+          prev ? { ...prev, inspectionStatus: "CONFIRMED" } : prev,
+        );
+      } else {
+        setMsg(data.error ?? "확인 처리 실패");
+      }
+    } catch {
+      setMsg("네트워크 오류가 발생했습니다.");
+    } finally {
+      setIsConfirming(false);
+    }
+  };
 
   if (isLoading)
     return (
@@ -103,7 +130,7 @@ export default function InspectionDetailPage() {
         <div className="mb-6 flex items-center justify-between">
           <div>
             <p className="text-sm text-blue-600 font-medium mb-1">
-              점검관리 / UC-I04
+              점검관리 / UC-I04 · UC-I02
             </p>
             <h1 className="text-2xl font-bold text-gray-900">점검 결과 상세</h1>
           </div>
@@ -114,6 +141,15 @@ export default function InspectionDetailPage() {
           </span>
         </div>
 
+        {msg && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-800 text-sm">
+            {msg}
+            <button onClick={() => setMsg("")} className="ml-2 text-blue-400">
+              ✕
+            </button>
+          </div>
+        )}
+
         {/* 기본 정보 */}
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
           <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
@@ -121,7 +157,7 @@ export default function InspectionDetailPage() {
           </div>
           <div className="divide-y divide-gray-100">
             {[
-              { label: "점검번호", value: `#${inspection.inspectionId}` },
+              { label: "점검번호", value: String(inspection.inspectionId) },
               { label: "연구실", value: inspection.laboratoryId },
               { label: "점검일자", value: inspection.inspectionDate },
               { label: "점검방법", value: inspection.inspectionMethod },
@@ -137,7 +173,7 @@ export default function InspectionDetailPage() {
           </div>
         </div>
 
-        {/* 체크리스트 결과 요약 */}
+        {/* 체크리스트 요약 */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
             <p className="text-xs text-green-600 mb-1">적합</p>
@@ -202,12 +238,24 @@ export default function InspectionDetailPage() {
           </div>
         )}
 
-        <button
-          onClick={() => router.back()}
-          className="w-full py-2.5 border border-gray-300 text-gray-600 text-sm rounded-lg hover:bg-gray-50"
-        >
-          목록으로
-        </button>
+        {/* 버튼 */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => router.back()}
+            className="flex-1 py-2.5 border border-gray-300 text-gray-600 text-sm rounded-lg hover:bg-gray-50"
+          >
+            목록으로
+          </button>
+          {inspection.inspectionStatus === "SUBMITTED" && (
+            <button
+              onClick={handleConfirm}
+              disabled={isConfirming}
+              className="flex-1 py-2.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 disabled:opacity-50 font-medium"
+            >
+              {isConfirming ? "처리 중..." : "✅ 확인 처리 (UC-I02)"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

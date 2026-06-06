@@ -1,6 +1,3 @@
-// SDD CLS-I-04: InspectionService
-// 점검 결과 입력값 검증, 권한 확인, 점검 상태 처리 (서비스 계층)
-
 import { InspectionRepository } from "@/app/lib/inspectionRepository";
 import {
   InspectionDTO,
@@ -15,7 +12,6 @@ export class InspectionService {
     this.inspectionRepository = new InspectionRepository();
   }
 
-  // UC-I01: 점검 결과 입력값 검증
   validateInspectionResult(dto: InspectionDTO): boolean {
     if (!dto.laboratoryId || dto.laboratoryId.trim().length === 0) return false;
     if (!dto.inspectionDate) return false;
@@ -24,16 +20,14 @@ export class InspectionService {
     return true;
   }
 
-  // UC-I01: 점검 결과 제출
   async submitInspectionResult(
     dto: InspectionDTO,
-  ): Promise<ApiResponse<{ inspectionId: number }>> {
+  ): Promise<ApiResponse<{ inspectionId: string }>> {
     const isValid = this.validateInspectionResult(dto);
     if (!isValid) {
       return { success: false, error: "필수 입력값이 누락되었습니다." };
     }
 
-    // 동일 연구실·동일 날짜 중복 체크
     const key = `${dto.laboratoryId}_${dto.inspectionDate}`;
     const exists = await this.inspectionRepository.existsInspectionResult(key);
     if (exists) {
@@ -51,7 +45,26 @@ export class InspectionService {
     };
   }
 
-  // UC-I03: 점검 이력 조회
+  // UC-I02: 점검 결과 확인 처리
+  async confirmInspection(inspectionId: string): Promise<ApiResponse<null>> {
+    const item = await this.inspectionRepository.findById(inspectionId);
+    if (!item) {
+      return { success: false, error: "점검 결과를 찾을 수 없습니다." };
+    }
+    if (item.inspectionStatus !== "SUBMITTED") {
+      return {
+        success: false,
+        error: "제출완료 상태의 점검만 확인 처리할 수 있습니다.",
+      };
+    }
+    await this.inspectionRepository.confirm(inspectionId);
+    return {
+      success: true,
+      data: null,
+      message: "점검 결과가 확인 처리되었습니다.",
+    };
+  }
+
   async getInspectionHistoryList(
     condition: InspectionSearchCondition,
   ): Promise<ApiResponse<InspectionDTO[]>> {
@@ -59,9 +72,8 @@ export class InspectionService {
     return { success: true, data: list };
   }
 
-  // UC-I04: 점검 단건 조회
   async getInspectionById(
-    inspectionId: number,
+    inspectionId: string,
   ): Promise<ApiResponse<InspectionDTO>> {
     const item = await this.inspectionRepository.findById(inspectionId);
     if (!item) {
