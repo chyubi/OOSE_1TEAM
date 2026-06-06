@@ -21,7 +21,7 @@ export default function Home() {
       <main className="mx-auto max-w-5xl px-4 py-16">
         <section className="mb-10">
           <p className="mb-2 text-sm font-medium text-blue-600">
-            폐기물관리 서브시스템
+            연구실안전관리시스템 / 폐기물관리
           </p>
           <h1 className="text-3xl font-bold text-slate-900">
             폐기물 배출 신청 및 처리현황 조회

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "폐기물관리 시스템",
+  title: "연구실안전관리시스템",
   description: "UC-W01 폐기물 배출 신청, UC-W05 폐기물 처리현황 조회",
 };
 
@@ -36,9 +36,14 @@ export default function RootLayout({
       <body className="min-h-full bg-slate-50 text-slate-900">
         <header className="sticky top-0 z-50 border-b border-slate-200 bg-white">
           <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-            <Link href="/" className="text-base font-bold text-blue-700">
-              폐기물관리
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link href="/" className="text-base font-bold text-blue-700">
+                연구실안전관리시스템
+              </Link>
+              <span className="rounded-full border border-slate-200 px-2 py-0.5 text-xs text-slate-500">
+                폐기물관리
+              </span>
+            </div>
             <nav className="flex items-center gap-1">
               {NAV_ITEMS.map((item) => (
                 <Link

@@ -13,7 +13,7 @@ lookup/registration demo.
 Out of scope for this branch: approval, status update, detail view, edit, and
 delete flows for waste requests.
 
-한국해양대학교 객체지향소프트웨어공학 1팀 구현 프로젝트입니다.
+객체지향소프트웨어공학 1팀 구현 프로젝트입니다.
 
 ---
 
@@ -24,7 +24,7 @@ delete flows for waste requests.
 | 정서인 | 팀장     | 연구실관리 (UC-L01~L17)                            | `seoin_연구실관리`      |
 | 차유비 | 구현팀장 | 사용자관리 (UC-U01~U05)                            | `chayubi_사용자관리`    |
 | 김민제 | 팀원     | 점검관리 (UC-I01~I04)                              | `minje_점검관리`        |
-| 김욱동 | 팀원     | 폐기물관리 (UC-W01~W06)                            | `wookdong_폐기물관리`         |
+| 김욱동 | 팀원     | 폐기물관리 (UC-W01~W06)                            | `ukdong_폐기물관리`         |
 | 류아연 | 팀원     | 안전교육관리 (UC-E01~E19)                          | `ayeon_안전교육관리`    |
 | 김도흠 | 팀원     | 화학물질관리 (UC-C01~C05)                           | `doheum_화학물질관리` |
 
@@ -150,7 +150,7 @@ main ← 최종 통합본 (직접 push 금지)
 
 ## 📋 시스템 개요
 
-**한국해양대학교 연구실안전관리시스템** 은 연구실 안전관리 관련 법적 의무사항을 전산화하는 웹 기반 업무지원 시스템입니다.
+**연구실안전관리시스템** 은 연구실 안전관리 관련 법적 의무사항을 전산화하는 웹 기반 업무지원 시스템입니다.
 
 ### 주요 액터
 
