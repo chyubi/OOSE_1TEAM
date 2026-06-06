@@ -105,3 +105,51 @@ chayubi\_사용자관리 브랜치에서만 작업
 .env 파일은 절대 커밋 금지
 
 객체지향소프트웨어공학 1팀 | 한국해양대학교 | SDD v0.3 기준
+
+-------------완료보고-------------
+✅ 사용자관리 서브시스템 (SS-U) 구현 완료
+담당 브랜치: chayubi\_사용자관리
+구현 완료 UC: UC-U01 ~ UC-U05 전체
+
+구현된 기능
+UC기능비고UC-U01사용자 등록 신청연구활동종사자 신청 폼UC-U02등록 신청 승인/반려관리자 페이지, 반려 사유 입력 포함UC-U03사용자 정보 수정/삭제상세 페이지에서 인라인 수정UC-U04사용자 목록 조회이름/역할/학부/상태 필터 검색UC-U05사용자 상세 조회상태 배지 포함
+
+파일 구조
+src/
+├── types/user.ts # 타입 정의 (UserDTO, UserRole, UserStatus 등)
+├── lib/
+│ ├── prisma.ts # Prisma 클라이언트
+│ ├── userRepository.ts # DB 접근 계층
+│ └── userService.ts # 비즈니스 로직
+└── app/
+├── api/users/
+│ ├── route.ts # GET(목록조회) / POST(등록신청)
+│ └── [userId]/
+│ ├── route.ts # GET / PUT / DELETE
+│ └── approve/route.ts # PATCH (승인/반려)
+├── users/
+│ ├── page.tsx # 사용자 목록 (UC-U04)
+│ ├── register/page.tsx # 등록 신청 (UC-U01)
+│ └── [userId]/page.tsx # 상세+수정+삭제 (UC-U05, U03)
+└── admin/users/page.tsx # 승인/반려 관리자 화면 (UC-U02)
+
+화면 URL
+/ → 대시보드 홈
+/users → 사용자 목록 조회 (UC-U04)
+/users/register → 사용자 등록 신청 (UC-U01)
+/users/:userId → 상세조회 + 수정 + 삭제 (UC-U05, U03)
+/admin/users → 관리자 승인/반려 화면 (UC-U02)
+
+API 엔드포인트
+POST /api/users # 등록 신청
+GET /api/users?keyword=&role=&status= # 목록 조회
+GET /api/users/:userId # 상세 조회
+PUT /api/users/:userId # 정보 수정
+DELETE /api/users/:userId # 삭제
+PATCH /api/users/:userId/approve # 승인/반려
+
+DB
+
+테이블: user_info (Supabase PostgreSQL)
+컬럼: user_id, name, department, role, email, phone, status, created_at, updated_at
+status 값: PENDING / APPROVED / REJECTED
