@@ -35,7 +35,6 @@ model LAB_INFO {
   CREATED_AT  DateTime  @default(now())
   UPDATED_AT  DateTime? @updatedAt
 
-  wasteRequests WASTE_REQUEST[]
   inspections   DAILY_INSPECTION[]
 
   @@index([LAB_TYPE],   name: "IDX_LAB_TYPE")
@@ -63,12 +62,9 @@ model WASTE_REQUEST {
   EMISSION_DATE    DateTime @db.Date
   STORAGE_LOCATION String   @db.VarChar(100)
   REQUEST_REASON   String?  @db.Text
-  REQUEST_STATUS   String   @db.VarChar(20)
+  REQUEST_STATUS   String   @default("REQUESTED") @db.VarChar(20)
   REQUEST_DATETIME DateTime @default(now())
 
-  laboratory LAB_INFO @relation(fields: [LABORATORY_ID], references: [LAB_ID])
-
-  @@unique([LABORATORY_ID, WASTE_TYPE, EMISSION_DATE], name: "UQ_WR_DUP")
   @@index([LABORATORY_ID, REQUEST_STATUS], name: "IX_WR_STATUS")
   @@index([EMISSION_DATE],                 name: "IX_WR_DATE")
   @@map("WASTE_REQUEST")

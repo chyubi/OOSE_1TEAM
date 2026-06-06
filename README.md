@@ -1,5 +1,18 @@
 # 🔬 연구실안전관리시스템 (Lab Safety Management System)
 
+## Waste management implementation scope
+
+This branch implements only the waste management use cases required for the
+lookup/registration demo.
+
+| UC | Feature | Route | API |
+| --- | --- | --- | --- |
+| UC-W01 | Waste discharge request registration | `/waste/request` | `POST /api/waste-requests` |
+| UC-W05 | Waste processing status lookup | `/waste/status` | `GET /api/waste-requests` |
+
+Out of scope for this branch: approval, status update, detail view, edit, and
+delete flows for waste requests.
+
 한국해양대학교 객체지향소프트웨어공학 1팀 구현 프로젝트입니다.
 
 ---
