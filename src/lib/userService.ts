@@ -1,6 +1,5 @@
 // SDD CLS-U-04: UserService
 // 업무 규칙, 검증, 권한 처리 (서비스 계층)
-// UC-U01 사용자 등록 신청 / UC-U04 사용자 조회
 
 import { UserRepository } from "@/lib/userRepository";
 import {
@@ -17,7 +16,7 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
-  // UC-U01: 입력값 유효성 검증 후 등록 신청 처리
+  // UC-U01: 입력값 유효성 검증
   async validateInput(dto: RegisterRequestDTO): Promise<boolean> {
     if (!dto.name || dto.name.trim().length < 2) return false;
     if (!dto.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dto.email))
@@ -41,7 +40,6 @@ export class UserService {
       return { success: false, error: "이미 등록된 이메일입니다." };
     }
 
-    // userId 자동 생성: 역할 코드 + 타임스탬프
     const prefix =
       dto.role === "ADMIN"
         ? "ADM"
@@ -59,6 +57,7 @@ export class UserService {
       role: dto.role,
       email: dto.email.trim().toLowerCase(),
       phone: dto.phone?.trim() || undefined,
+      status: "PENDING",
     };
 
     await this.userRepository.save(userDTO);
@@ -67,6 +66,58 @@ export class UserService {
       data: { userId },
       message: "등록 신청이 완료되었습니다.",
     };
+  }
+
+  // UC-U02: 등록 신청 승인/반려
+  async processApproval(
+    userId: string,
+    action: "APPROVE" | "REJECT",
+    rejectReason?: string,
+  ): Promise<ApiResponse<null>> {
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      return { success: false, error: "사용자를 찾을 수 없습니다." };
+    }
+    if (user.status !== "PENDING") {
+      return { success: false, error: "이미 처리된 신청입니다." };
+    }
+
+    const newStatus = action === "APPROVE" ? "APPROVED" : "REJECTED";
+    await this.userRepository.updateStatus(userId, newStatus);
+
+    const message =
+      action === "APPROVE"
+        ? "승인이 완료되었습니다."
+        : `반려되었습니다. 사유: ${rejectReason}`;
+
+    return { success: true, data: null, message };
+  }
+
+  // UC-U03: 사용자 정보 수정
+  async updateUser(
+    userId: string,
+    data: Partial<UserDTO>,
+  ): Promise<ApiResponse<null>> {
+    const exists = await this.userRepository.existsByUserId(userId);
+    if (!exists) {
+      return { success: false, error: "사용자를 찾을 수 없습니다." };
+    }
+    await this.userRepository.update(userId, data);
+    return {
+      success: true,
+      data: null,
+      message: "사용자 정보가 수정되었습니다.",
+    };
+  }
+
+  // UC-U03: 사용자 삭제
+  async deleteUser(userId: string): Promise<ApiResponse<null>> {
+    const exists = await this.userRepository.existsByUserId(userId);
+    if (!exists) {
+      return { success: false, error: "사용자를 찾을 수 없습니다." };
+    }
+    await this.userRepository.delete(userId);
+    return { success: true, data: null, message: "사용자가 삭제되었습니다." };
   }
 
   // UC-U04: 사용자 목록 조회

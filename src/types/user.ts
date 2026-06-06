@@ -2,12 +2,12 @@
 // SDD v0.3 기준 - UserEntity, UserDTO, SearchCondition
 
 export type UserRole =
-  | "ADMIN" // 관리자
-  | "LAB_MANAGER" // 연구실책임자
-  | "SAFETY_MANAGER" // 연구실안전관리담당자
-  | "RESEARCHER"; // 연구활동종사자
+  | "ADMIN"
+  | "LAB_MANAGER"
+  | "SAFETY_MANAGER"
+  | "RESEARCHER";
 
-export type RegisterStatus = "PENDING" | "APPROVED" | "REJECTED";
+export type UserStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 // SDD CLS-U-05: UserEntity
 export interface UserEntity {
@@ -17,11 +17,12 @@ export interface UserEntity {
   role: UserRole;
   email: string;
   phone?: string;
+  status: UserStatus;
   createdAt: Date;
   updatedAt: Date;
 }
 
-// SDD CLS-U-07: UserDTO (계층 간 데이터 전달)
+// SDD CLS-U-07: UserDTO
 export interface UserDTO {
   userId: string;
   name: string;
@@ -29,40 +30,30 @@ export interface UserDTO {
   role: UserRole;
   email: string;
   phone?: string;
+  status?: UserStatus;
 }
 
-// UC-U01 사용자 등록 신청 폼 데이터
+// UC-U01 등록 신청 폼
 export interface RegisterRequestDTO {
   name: string;
   department: string;
   role: UserRole;
   email: string;
   phone: string;
-  reason: string; // 등록 신청 사유
-  studentId?: string; // 학번 (연구활동종사자)
-  labName?: string; // 소속 연구실
+  reason: string;
+  studentId?: string;
+  labName?: string;
 }
 
-// UC-U04 사용자 조회 조건
-// SDD CLS-U-08: SearchCondition
+// UC-U04 조회 조건
 export interface SearchCondition {
   keyword?: string;
   role?: UserRole | "";
   department?: string;
-  status?: RegisterStatus | "";
+  status?: UserStatus | "";
 }
 
-// 사용자 등록 신청 정보 (관리자 검토용)
-export interface RegisterRequest {
-  requestId: string;
-  requestData: RegisterRequestDTO;
-  status: RegisterStatus;
-  requestedAt: Date;
-  reviewedAt?: Date;
-  reviewComment?: string;
-}
-
-// API 응답 공통 형식
+// API 응답 공통
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
