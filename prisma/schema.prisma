@@ -1,114 +1,105 @@
+// prisma/schema.prisma
+// 연구실안전관리시스템 DB 스키마 v0.3 기준
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
 
+// 사용자관리 (SS-U) - 차유비
 model USER_INFO {
-  USER_ID   String  @id @db.VarChar(20)
-  PASSWORD  String  @db.VarChar(255)
-  NAME      String  @db.VarChar(50)
-  DEPT_NAME String  @db.VarChar(100)
-  USER_ROLE String  @db.VarChar(20)
-  STATUS    String  @db.VarChar(10)
-
-  inspections DAILY_INSPECTION[] @relation("InspectionWriter")
-
-  @@index([NAME], name: "IX_USER_NAME")
-  @@map("USER_INFO")
+  userId     String   @id @map("user_id")
+  name       String   @map("name")
+  department String   @map("department")
+  role       String   @map("role") // ADMIN | LAB_MANAGER | SAFETY_MANAGER | RESEARCHER
+  email      String   @unique @map("email")
+  phone      String?  @map("phone")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  status  String  @default("PENDING") @map("status")
+  @@map("user_info")
 }
 
+// 연구실관리 (SS-L) - 정서인
 model LAB_INFO {
-  LAB_ID      String    @id @db.VarChar(20)
-  LAB_NAME    String    @unique @db.VarChar(100)
-  LOCATION    String    @db.VarChar(200)
-  LAB_TYPE    String    @db.VarChar(50)
-  CONTACT     String?   @db.VarChar(50)
-  MGMT_LEVEL  String    @db.VarChar(20)
-  SAFETY_SIGN String?   @db.VarChar(255)
-  LAYOUT_IMG  String?   @db.VarChar(255)
-  PHOTO       String?   @db.VarChar(255)
-  ORG_ID      String    @db.VarChar(20)
-  CREATED_AT  DateTime  @default(now())
-  UPDATED_AT  DateTime? @updatedAt
+  labId         String   @id @map("lab_id")
+  labName       String   @map("lab_name")
+  location      String   @map("location")
+  labType       String   @map("lab_type")
+  contactPerson String   @map("contact_person")
+  phone         String?  @map("phone")
+  safetyLevel   String?  @map("safety_level")
+  floorPlan     String?  @map("floor_plan")
+  photo         String?  @map("photo")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
-  wasteRequests WASTE_REQUEST[]
-  inspections   DAILY_INSPECTION[]
-
-  @@index([LAB_TYPE],   name: "IDX_LAB_TYPE")
-  @@index([MGMT_LEVEL], name: "IDX_LAB_MGMT")
-  @@map("LAB_INFO")
+  @@map("lab_info")
 }
 
+// 화학물질관리 (SS-C) - 김도흠
 model TB_CHEMICAL {
-  CHEMICAL_ID      String @id @db.VarChar(30)
-  PRODUCT_NAME     String @db.VarChar(200)
-  MANUFACTURER     String @db.VarChar(100)
-  CAS_NO           String @unique @db.VarChar(20)
-  STORAGE_LOCATION String @db.VarChar(200)
-  STATUS           String @db.VarChar(20)
+  chemicalId      String   @id @map("chemical_id")
+  productName     String   @map("product_name")
+  manufacturer    String?  @map("manufacturer")
+  casNo           String?  @map("cas_no")
+  storageLocation String?  @map("storage_location")
+  status          String   @default("ACTIVE") @map("status")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
-  @@index([PRODUCT_NAME, CAS_NO, STORAGE_LOCATION], name: "IX_CH_SEARCH")
-  @@map("TB_CHEMICAL")
+  @@map("tb_chemical")
 }
 
+// 폐기물관리 (SS-W) - 김도흠
 model WASTE_REQUEST {
-  REQUEST_ID       BigInt   @id @default(autoincrement())
-  LABORATORY_ID    String   @db.VarChar(20)
-  WASTE_TYPE       String   @db.VarChar(50)
-  EMISSION_AMOUNT  Decimal  @db.Decimal(10, 3)
-  EMISSION_DATE    DateTime @db.Date
-  STORAGE_LOCATION String   @db.VarChar(100)
-  REQUEST_REASON   String?  @db.Text
-  REQUEST_STATUS   String   @db.VarChar(20)
-  REQUEST_DATETIME DateTime @default(now())
+  requestId    String    @id @map("request_id")
+  labId        String    @map("lab_id")
+  requesterId  String    @map("requester_id")
+  wasteType    String    @map("waste_type")
+  quantity     Float     @map("quantity")
+  unit         String    @map("unit")
+  status       String    @default("PENDING") @map("status")
+  requestedAt  DateTime  @default(now()) @map("requested_at")
+  processedAt  DateTime? @map("processed_at")
 
-  laboratory LAB_INFO @relation(fields: [LABORATORY_ID], references: [LAB_ID])
-
-  @@unique([LABORATORY_ID, WASTE_TYPE, EMISSION_DATE], name: "UQ_WR_DUP")
-  @@index([LABORATORY_ID, REQUEST_STATUS], name: "IX_WR_STATUS")
-  @@index([EMISSION_DATE],                 name: "IX_WR_DATE")
-  @@map("WASTE_REQUEST")
+  @@map("waste_request")
 }
 
+// 일상점검관리 (SS-I) - 김민제
 model DAILY_INSPECTION {
-  INSPECTION_ID     BigInt    @id @default(autoincrement())
-  LABORATORY_ID     String    @db.VarChar(20)
-  INSPECTION_DATE   DateTime  @db.Date
-  INSPECTION_METHOD String    @db.VarChar(20)
-  CHECKLIST_RESULT  String    @db.Text
-  NONCONFORM_REASON String?   @db.Text
-  SPECIAL_NOTE      String?   @db.Text
-  INSPECTION_STATUS String    @db.VarChar(20)
-  WRITER_ID         String    @db.VarChar(20)
-  SUBMIT_DATETIME   DateTime?
-  CONFIRM_DATETIME  DateTime?
+  inspectionId      String    @id @map("inspection_id")
+  laboratoryId      String    @map("laboratory_id")
+  inspectionDate    DateTime  @map("inspection_date")
+  inspectionMethod  String?   @map("inspection_method")
+  checklistResult   String?   @map("checklist_result")
+  nonconformReason  String?   @map("nonconform_reason")
+  specialNote       String?   @map("special_note")
+  inspectionStatus  String    @default("DRAFT") @map("inspection_status")
+  writerId          String?   @map("writer_id")
+  submitDateTime    DateTime? @map("submit_date_time")
+  confirmDateTime   DateTime? @map("confirm_date_time")
+  createdAt         DateTime  @default(now()) @map("created_at")
 
-  laboratory LAB_INFO  @relation(fields: [LABORATORY_ID], references: [LAB_ID])
-  writer     USER_INFO @relation("InspectionWriter", fields: [WRITER_ID], references: [USER_ID])
-
-  @@unique([LABORATORY_ID, INSPECTION_DATE], name: "UQ_DI_DUP")
-  @@index([LABORATORY_ID, INSPECTION_STATUS], name: "IX_DI_STATUS")
-  @@index([INSPECTION_DATE],                  name: "IX_DI_DATE")
-  @@map("DAILY_INSPECTION")
+  @@map("daily_inspection")
 }
 
+// 안전교육관리 (SS-E) - 류아연
 model EDUCATION_COURSE {
-  COURSE_ID           BigInt   @id @default(autoincrement())
-  COURSE_NAME         String   @unique @db.VarChar(100)
-  EDUCATION_TYPE      String   @db.VarChar(50)
-  TARGET_ROLE         String   @db.VarChar(50)
-  COMPLETION_STANDARD String   @db.VarChar(100)
-  START_DATE          DateTime @db.Date
-  END_DATE            DateTime @db.Date
-  CONTENT_PATH        String?  @db.VarChar(255)
-  COURSE_STATUS       String   @db.VarChar(20)
+  courseId            String   @id @map("course_id")
+  courseName          String   @map("course_name")
+  courseType          String   @map("course_type")
+  targetRole          String   @map("target_role")
+  completionStandard  String?  @map("completion_standard")
+  educationPeriod     String?  @map("education_period")
+  contentInfo         String?  @map("content_info")
+  status              String   @default("ACTIVE") @map("status")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
 
-  @@index([EDUCATION_TYPE, TARGET_ROLE], name: "IX_EC_TYPE_TARGET")
-  @@index([START_DATE, END_DATE],        name: "IX_EC_PERIOD")
-  @@index([COURSE_STATUS],               name: "IX_EC_STATUS")
-  @@map("EDUCATION_COURSE")
+  @@map("education_course")
 }
