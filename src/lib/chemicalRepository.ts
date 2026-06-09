@@ -1,4 +1,4 @@
-import prisma from './prisma';
+import { prisma } from "./prisma";
 
 export interface SearchCondition {
   productName?: string;
@@ -6,34 +6,33 @@ export interface SearchCondition {
   storageLocation?: string;
 }
 
-// 오퍼레이션: + save(entity: ChemicalDTO): void
 export const save = async (entity: any) => {
   return await prisma.tB_CHEMICAL.create({
     data: {
-      CHEMICAL_ID: entity.chemicalId,
-      PRODUCT_NAME: entity.productName,
-      MANUFACTURER: entity.manufacturer,
-      CAS_NO: entity.casNo,
-      STORAGE_LOCATION: entity.storageLocation,
-      STATUS: entity.status,
+      chemicalId: entity.chemicalId,
+      productName: entity.productName,
+      manufacturer: entity.manufacturer,
+      casNo: entity.casNo,
+      storageLocation: entity.storageLocation,
+      status: entity.status,
     },
   });
 };
 
-// 오퍼레이션: + findById(id: String): ChemicalInfo
 export const findById = async (id: string) => {
   return await prisma.tB_CHEMICAL.findUnique({
-    where: { CHEMICAL_ID: id },
+    where: { chemicalId: id },
   });
 };
 
-// 오퍼레이션: + findByCondition(cond: SearchCondition): List<ChemicalInfo>
 export const findByCondition = async (cond: SearchCondition) => {
   return await prisma.tB_CHEMICAL.findMany({
     where: {
-      ...(cond.productName && { PRODUCT_NAME: { contains: cond.productName } }),
-      ...(cond.casNo && { CAS_NO: { equals: cond.casNo } }),
-      ...(cond.storageLocation && { STORAGE_LOCATION: { contains: cond.storageLocation } }),
+      ...(cond.productName && { productName: { contains: cond.productName } }),
+      ...(cond.casNo && { casNo: { equals: cond.casNo } }),
+      ...(cond.storageLocation && {
+        storageLocation: { contains: cond.storageLocation },
+      }),
     },
   });
 };

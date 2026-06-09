@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     console.error("[GET /api/labs] Error:", error);
     return NextResponse.json(
       { success: false, errors: ["서버 오류가 발생했습니다."] },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -23,7 +23,7 @@ const INITIAL_COND: SearchCond = {
   location: "",
 };
 
-const LAB_TYPES = [
+const labTypeS = [
   "일반연구실",
   "화학연구실",
   "생물연구실",
@@ -33,7 +33,7 @@ const LAB_TYPES = [
   "복합연구실",
 ];
 
-const MGMT_LEVELS = ["1등급", "2등급", "3등급"];
+const safetyLevelS = ["1등급", "2등급", "3등급"];
 
 export default function LabQueryView() {
   // CLS-L-02 속성
@@ -93,7 +93,7 @@ export default function LabQueryView() {
   };
 
   const handleSearchChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setSearchCond((prev) => ({ ...prev, [name]: value }));
@@ -114,7 +114,9 @@ export default function LabQueryView() {
       });
       const data = await res.json();
       if (data.success) {
-        setLabList((prev) => prev.filter((l) => l.labId !== deleteTarget.labId));
+        setLabList((prev) =>
+          prev.filter((l) => l.labId !== deleteTarget.labId),
+        );
         setDeleteTarget(null);
       } else {
         setErrorMsg(data.errors?.join(", ") ?? "삭제 중 오류가 발생했습니다.");
@@ -202,7 +204,7 @@ export default function LabQueryView() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">전체</option>
-                {LAB_TYPES.map((t) => (
+                {labTypeS.map((t) => (
                   <option key={t} value={t}>
                     {t}
                   </option>
@@ -220,7 +222,7 @@ export default function LabQueryView() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">전체</option>
-                {MGMT_LEVELS.map((l) => (
+                {safetyLevelS.map((l) => (
                   <option key={l} value={l}>
                     {l}
                   </option>
@@ -259,7 +261,10 @@ export default function LabQueryView() {
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-gray-700">
                 조회 결과{" "}
-                <span className="text-blue-600 font-bold">{labList.length}</span>건
+                <span className="text-blue-600 font-bold">
+                  {labList.length}
+                </span>
+                건
               </h2>
             </div>
 
@@ -294,7 +299,10 @@ export default function LabQueryView() {
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {labList.map((lab) => (
-                      <tr key={lab.labId} className="hover:bg-gray-50 transition-colors">
+                      <tr
+                        key={lab.labId}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
                         <td className="px-4 py-3 text-gray-500 font-mono text-xs">
                           {lab.labId}
                         </td>
@@ -306,12 +314,16 @@ export default function LabQueryView() {
                             {lab.labName}
                           </button>
                         </td>
-                        <td className="px-4 py-3 text-gray-600">{lab.location}</td>
-                        <td className="px-4 py-3 text-gray-600">{lab.labType}</td>
+                        <td className="px-4 py-3 text-gray-600">
+                          {lab.location}
+                        </td>
+                        <td className="px-4 py-3 text-gray-600">
+                          {lab.labType}
+                        </td>
                         <td className="px-4 py-3">
                           <span
                             className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${mgmtLevelBadge(
-                              lab.mgmtLevel
+                              lab.mgmtLevel,
                             )}`}
                           >
                             {lab.mgmtLevel}

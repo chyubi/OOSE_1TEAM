@@ -202,3 +202,4 @@ DB
 점검 ID: INS-타임스탬프 형식 자동 생성
 상태값: DRAFT / SUBMITTED / CONFIRMED
 동일 연구실·동일 날짜 중복 제출 방지 로직 포함
+

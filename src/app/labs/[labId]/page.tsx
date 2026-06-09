@@ -79,7 +79,9 @@ export default function LabDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-500 text-sm mb-4">{errorMsg || "연구실을 찾을 수 없습니다."}</p>
+          <p className="text-red-500 text-sm mb-4">
+            {errorMsg || "연구실을 찾을 수 없습니다."}
+          </p>
           <button
             onClick={() => router.push("/labs")}
             className="px-4 py-2 text-sm bg-blue-700 text-white rounded-lg hover:bg-blue-800"
@@ -105,7 +107,9 @@ export default function LabDetailPage() {
             </button>
             <div>
               <h1 className="text-lg font-bold">{lab.labName}</h1>
-              <p className="text-blue-200 text-xs mt-0.5">{lab.labId} · 연구실 상세</p>
+              <p className="text-blue-200 text-xs mt-0.5">
+                {lab.labId} · 연구실 상세
+              </p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -153,17 +157,14 @@ export default function LabDetailPage() {
               <DetailRow label="관리 등급">
                 <span
                   className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium border ${mgmtLevelBadge(
-                    lab.mgmtLevel
+                    lab.mgmtLevel,
                   )}`}
                 >
                   {lab.mgmtLevel}
                 </span>
               </DetailRow>
-              <DetailRow label="기관 ID">
-                <span className="font-mono text-sm">{lab.orgId}</span>
-              </DetailRow>
               <DetailRow label="연락처">
-                {lab.contact ?? <span className="text-gray-400">-</span>}
+                {lab.contactPerson ?? <span className="text-gray-400">-</span>}
               </DetailRow>
               <DetailRow label="등록일시">
                 <span className="text-sm text-gray-600">
@@ -182,23 +183,20 @@ export default function LabDetailPage() {
 
           <div className="p-6">
             <dl className="space-y-4">
-              <DetailRow label="안전표지">
-                {lab.safetySign ? (
-                  <span className="text-sm text-gray-600 break-all">{lab.safetySign}</span>
-                ) : (
-                  <span className="text-gray-400 text-sm">미등록</span>
-                )}
-              </DetailRow>
               <DetailRow label="배치도">
-                {lab.layoutImage ? (
-                  <span className="text-sm text-gray-600 break-all">{lab.layoutImage}</span>
+                {lab.floorPlan ? (
+                  <span className="text-sm text-gray-600 break-all">
+                    {lab.floorPlan}
+                  </span>
                 ) : (
                   <span className="text-gray-400 text-sm">미등록</span>
                 )}
               </DetailRow>
               <DetailRow label="사진">
                 {lab.photo ? (
-                  <span className="text-sm text-gray-600 break-all">{lab.photo}</span>
+                  <span className="text-sm text-gray-600 break-all">
+                    {lab.photo}
+                  </span>
                 ) : (
                   <span className="text-gray-400 text-sm">미등록</span>
                 )}
@@ -256,7 +254,9 @@ function DetailRow({
 }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+      <dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+        {label}
+      </dt>
       <dd className="text-gray-900">{children}</dd>
     </div>
   );

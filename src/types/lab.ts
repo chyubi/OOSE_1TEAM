@@ -5,11 +5,9 @@ export interface LabForm {
   labName: string;
   location: string;
   labType: string;
-  contact?: string;
+  contactPerson?: string;
   mgmtLevel: string;
-  orgId: string;
-  safetySign?: string;
-  layoutImage?: string;
+  floorPlan?: string;
   photo?: string;
 }
 
@@ -22,10 +20,8 @@ export interface LabSummary {
 }
 
 export interface LabDetail extends LabSummary {
-  contact?: string;
-  orgId: string;
-  safetySign?: string;
-  layoutImage?: string;
+  contactPerson?: string;
+  floorPlan?: string;
   photo?: string;
   createdAt: string;
   updatedAt?: string;
@@ -43,7 +39,7 @@ export interface LabResult {
   message?: string;
 }
 
-export const LAB_TYPES = [
+export const labTypeS = [
   "일반연구실",
   "화학연구실",
   "생물연구실",
@@ -53,4 +49,4 @@ export const LAB_TYPES = [
   "복합연구실",
 ] as const;
 
-export const MGMT_LEVELS = ["1등급", "2등급", "3등급"] as const;
+export const safetyLevelS = ["1등급", "2등급", "3등급"] as const;

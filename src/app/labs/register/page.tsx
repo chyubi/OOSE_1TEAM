@@ -7,18 +7,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { LabForm, LAB_TYPES, MGMT_LEVELS } from "@/types/lab";
+import { LabForm, labTypeS, safetyLevelS } from "@/types/lab";
 
 const INITIAL_FORM: LabForm = {
   labId: "",
   labName: "",
   location: "",
   labType: "",
-  contact: "",
+  contactPerson: "",
   mgmtLevel: "",
-  orgId: "",
-  safetySign: "",
-  layoutImage: "",
+  floorPlan: "",
   photo: "",
 };
 
@@ -77,7 +75,7 @@ export default function LabRegisterView() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setLabForm((prev) => ({ ...prev, [name]: value }));
@@ -204,7 +202,7 @@ export default function LabRegisterView() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="">선택하세요</option>
-                  {LAB_TYPES.map((t) => (
+                  {labTypeS.map((t) => (
                     <option key={t} value={t}>
                       {t}
                     </option>
@@ -221,7 +219,7 @@ export default function LabRegisterView() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="">선택하세요</option>
-                  {MGMT_LEVELS.map((l) => (
+                  {safetyLevelS.map((l) => (
                     <option key={l} value={l}>
                       {l}
                     </option>
@@ -230,60 +228,35 @@ export default function LabRegisterView() {
               </FormField>
             </div>
 
-            {/* 연락처 / 기관 ID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <FormField label="연락처">
-                <input
-                  type="text"
-                  name="contact"
-                  value={labForm.contact}
-                  onChange={handleChange}
-                  placeholder="예) 051-410-1234"
-                  maxLength={50}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </FormField>
-
-              <FormField label="기관 ID" required>
-                <input
-                  type="text"
-                  name="orgId"
-                  value={labForm.orgId}
-                  onChange={handleChange}
-                  placeholder="예) KMOU"
-                  maxLength={20}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </FormField>
-            </div>
+            {/* 연락처 */}
+            <FormField label="연락처">
+              <input
+                type="text"
+                name="contactPerson"
+                value={labForm.contactPerson}
+                onChange={handleChange}
+                placeholder="예) 051-410-1234"
+                maxLength={50}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </FormField>
           </div>
 
           {/* 부가 정보 섹션 */}
           <div className="px-6 py-4 bg-gray-50 border-t border-b border-gray-200">
             <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-              부가 정보 <span className="text-gray-400 font-normal">(선택)</span>
+              부가 정보{" "}
+              <span className="text-gray-400 font-normal">(선택)</span>
             </h2>
           </div>
 
           <div className="p-6 space-y-5">
-            <FormField label="안전표지 경로">
-              <input
-                type="text"
-                name="safetySign"
-                value={labForm.safetySign}
-                onChange={handleChange}
-                placeholder="예) /uploads/safety/lab001.jpg"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </FormField>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <FormField label="배치도 이미지 경로">
+              <FormField label="배치도 경로">
                 <input
                   type="text"
-                  name="layoutImage"
-                  value={labForm.layoutImage}
+                  name="floorPlan"
+                  value={labForm.floorPlan}
                   onChange={handleChange}
                   placeholder="예) /uploads/layout/lab001.jpg"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

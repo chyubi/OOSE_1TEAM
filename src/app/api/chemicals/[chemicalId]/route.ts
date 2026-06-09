@@ -1,57 +1,75 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-// 상세 조회 (GET)
-export async function GET(request: Request, { params }: { params: { chemicalId: string } }) {
+// 단건 조회 (GET)
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ chemicalId: string }> },
+) {
   try {
+    const { chemicalId } = await params;
     const chemical = await prisma.tB_CHEMICAL.findUnique({
-      where: { CHEMICAL_ID: params.chemicalId },
+      where: { chemicalId },
     });
-    
-    if (!chemical) return NextResponse.json({ success: false, message: '데이터 없음' }, { status: 404 });
-    
-    // 프론트엔드가 쓰기 편하게 camelCase로 변환해서 전달
-    const data = {
-      chemicalId: chemical.CHEMICAL_ID,
-      productName: chemical.PRODUCT_NAME,
-      manufacturer: chemical.MANUFACTURER,
-      casNo: chemical.CAS_NO,
-      storageLocation: chemical.STORAGE_LOCATION,
-      status: chemical.STATUS,
-    };
-    return NextResponse.json({ success: true, data });
+
+    if (!chemical) {
+      return NextResponse.json(
+        { success: false, message: "데이터 없음" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json({ success: true, data: chemical });
   } catch (error) {
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }
 
 // 수정 (PUT)
-export async function PUT(request: Request, { params }: { params: { chemicalId: string } }) {
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ chemicalId: string }> },
+) {
   try {
+    const { chemicalId } = await params;
     const body = await request.json();
+
     await prisma.tB_CHEMICAL.update({
-      where: { CHEMICAL_ID: params.chemicalId },
+      where: { chemicalId },
       data: {
-        PRODUCT_NAME: body.productName,
-        MANUFACTURER: body.manufacturer,
-        STORAGE_LOCATION: body.storageLocation,
-        STATUS: body.status,
+        productName: body.productName,
+        manufacturer: body.manufacturer,
+        storageLocation: body.storageLocation,
+        status: body.status,
       },
     });
-    return NextResponse.json({ success: true });
+
+    return NextResponse.json({ success: true, message: "수정되었습니다." });
   } catch (error) {
-    return NextResponse.json({ success: false, message: '수정 실패' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: "수정 실패" },
+      { status: 500 },
+    );
   }
 }
 
 // 삭제 (DELETE)
-export async function DELETE(request: Request, { params }: { params: { chemicalId: string } }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ chemicalId: string }> },
+) {
   try {
+    const { chemicalId } = await params;
+
     await prisma.tB_CHEMICAL.delete({
-      where: { CHEMICAL_ID: params.chemicalId },
+      where: { chemicalId },
     });
-    return NextResponse.json({ success: true });
+
+    return NextResponse.json({ success: true, message: "삭제되었습니다." });
   } catch (error) {
-    return NextResponse.json({ success: false, message: '삭제 실패' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: "삭제 실패" },
+      { status: 500 },
+    );
   }
 }

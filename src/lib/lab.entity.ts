@@ -1,6 +1,5 @@
 // CLS-L-05: Lab Entity 클래스
 // 연구실 기본정보를 표현하는 도메인 객체
-// 위치·목적·관리등급·출입자·연락처·배치도·안전표지·사진 속성 보유
 
 import { LabForm, ValidationResult } from "@/types/lab";
 
@@ -9,11 +8,9 @@ export class Lab {
   labName: string;
   location: string;
   labType: string;
-  contact?: string;
+  contactPerson?: string;
   mgmtLevel: string;
-  orgId: string;
-  safetySign?: string;
-  layoutImage?: string;
+  floorPlan?: string;
   photo?: string;
 
   constructor(data: LabForm) {
@@ -21,34 +18,26 @@ export class Lab {
     this.labName = data.labName;
     this.location = data.location;
     this.labType = data.labType;
-    this.contact = data.contact;
+    this.contactPerson = data.contactPerson;
     this.mgmtLevel = data.mgmtLevel;
-    this.orgId = data.orgId;
-    this.safetySign = data.safetySign;
-    this.layoutImage = data.layoutImage;
+    this.floorPlan = data.floorPlan;
     this.photo = data.photo;
   }
 
-  // 필수값 충족 여부 확인
   validateRequired(): boolean {
     return !!(
       this.labId &&
       this.labName &&
       this.location &&
       this.labType &&
-      this.mgmtLevel &&
-      this.orgId
+      this.mgmtLevel
     );
   }
 
-  // 중복 여부 판단 (Repository에서 호출)
   isDuplicated(): boolean {
-    // 실제 중복 확인은 LabRepository.existsByKey()에서 처리
-    // 이 메서드는 형식적 완전성을 위해 유지
     return false;
   }
 
-  // 유효성 검사 상세
   validate(): ValidationResult {
     const errors: string[] = [];
 
@@ -67,10 +56,7 @@ export class Lab {
     if (!this.mgmtLevel) {
       errors.push("관리 등급은 필수입니다.");
     }
-    if (!this.orgId || this.orgId.length > 20) {
-      errors.push("기관 ID는 필수이며 20자 이내여야 합니다.");
-    }
-    if (this.contact && this.contact.length > 50) {
+    if (this.contactPerson && this.contactPerson.length > 50) {
       errors.push("연락처는 50자 이내여야 합니다.");
     }
 

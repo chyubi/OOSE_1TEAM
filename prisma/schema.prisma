@@ -1,105 +1,97 @@
-// prisma/schema.prisma
-// 연구실안전관리시스템 DB 스키마 v0.3 기준
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// 사용자관리 (SS-U) - 차유비
 model USER_INFO {
-  userId     String   @id @map("user_id")
-  name       String   @map("name")
-  department String   @map("department")
-  role       String   @map("role") // ADMIN | LAB_MANAGER | SAFETY_MANAGER | RESEARCHER
-  email      String   @unique @map("email")
-  phone      String?  @map("phone")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  status  String  @default("PENDING") @map("status")
+  userId     String    @id @default(cuid()) @map("user_id")
+  name       String    @map("name")
+  department String    @map("department")
+  role       String    @map("role")
+  email      String    @unique @map("email")
+  phone      String?   @map("phone")
+  status     String    @default("PENDING") @map("status")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
+
   @@map("user_info")
 }
 
-// 연구실관리 (SS-L) - 정서인
 model LAB_INFO {
-  labId         String   @id @map("lab_id")
-  labName       String   @map("lab_name")
-  location      String   @map("location")
-  labType       String   @map("lab_type")
-  contactPerson String   @map("contact_person")
-  phone         String?  @map("phone")
-  safetyLevel   String?  @map("safety_level")
-  floorPlan     String?  @map("floor_plan")
-  photo         String?  @map("photo")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  labId         String    @id @map("lab_id")
+  labName       String    @map("lab_name")
+  location      String    @map("location")
+  labType       String    @map("lab_type")
+  contactPerson String    @map("contact_person")
+  phone         String?   @map("phone")
+  safetyLevel   String?   @map("safety_level")
+  floorPlan     String?   @map("floor_plan")
+  photo         String?   @map("photo")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
 
   @@map("lab_info")
 }
 
-// 화학물질관리 (SS-C) - 김도흠
 model TB_CHEMICAL {
-  chemicalId      String   @id @map("chemical_id")
-  productName     String   @map("product_name")
-  manufacturer    String?  @map("manufacturer")
-  casNo           String?  @map("cas_no")
-  storageLocation String?  @map("storage_location")
-  status          String   @default("ACTIVE") @map("status")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  chemicalId      String    @id @map("chemical_id")
+  productName     String    @map("product_name")
+  manufacturer    String?   @map("manufacturer")
+  casNo           String?   @map("cas_no")
+  storageLocation String?   @map("storage_location")
+  status          String    @default("ACTIVE") @map("status")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime? @updatedAt @map("updated_at")
 
   @@map("tb_chemical")
 }
 
-// 폐기물관리 (SS-W) - 김도흠
 model WASTE_REQUEST {
-  requestId    String    @id @map("request_id")
-  labId        String    @map("lab_id")
-  requesterId  String    @map("requester_id")
-  wasteType    String    @map("waste_type")
-  quantity     Float     @map("quantity")
-  unit         String    @map("unit")
-  status       String    @default("PENDING") @map("status")
-  requestedAt  DateTime  @default(now()) @map("requested_at")
-  processedAt  DateTime? @map("processed_at")
+  requestId   String    @id @map("request_id")
+  labId       String    @map("lab_id")
+  requesterId String    @map("requester_id")
+  wasteType   String    @map("waste_type")
+  quantity    Float     @map("quantity")
+  unit        String    @map("unit")
+  status      String    @default("PENDING") @map("status")
+  requestedAt DateTime  @default(now()) @map("requested_at")
+  processedAt DateTime? @map("processed_at")
 
   @@map("waste_request")
 }
 
-// 일상점검관리 (SS-I) - 김민제
 model DAILY_INSPECTION {
-  inspectionId      String    @id @map("inspection_id")
-  laboratoryId      String    @map("laboratory_id")
-  inspectionDate    DateTime  @map("inspection_date")
-  inspectionMethod  String?   @map("inspection_method")
-  checklistResult   String?   @map("checklist_result")
-  nonconformReason  String?   @map("nonconform_reason")
-  specialNote       String?   @map("special_note")
-  inspectionStatus  String    @default("DRAFT") @map("inspection_status")
-  writerId          String?   @map("writer_id")
-  submitDateTime    DateTime? @map("submit_date_time")
-  confirmDateTime   DateTime? @map("confirm_date_time")
-  createdAt         DateTime  @default(now()) @map("created_at")
+  inspectionId     String    @id @map("inspection_id")
+  laboratoryId     String    @map("laboratory_id")
+  inspectionDate   DateTime  @map("inspection_date")
+  inspectionMethod String?   @map("inspection_method")
+  checklistResult  String?   @map("checklist_result")
+  nonconformReason String?   @map("nonconform_reason")
+  specialNote      String?   @map("special_note")
+  inspectionStatus String    @default("DRAFT") @map("inspection_status")
+  writerId         String?   @map("writer_id")
+  submitDateTime   DateTime? @map("submit_date_time")
+  confirmDateTime  DateTime? @map("confirm_date_time")
+  createdAt        DateTime  @default(now()) @map("created_at")
 
   @@map("daily_inspection")
 }
 
-// 안전교육관리 (SS-E) - 류아연
 model EDUCATION_COURSE {
-  courseId            String   @id @map("course_id")
-  courseName          String   @map("course_name")
-  courseType          String   @map("course_type")
-  targetRole          String   @map("target_role")
-  completionStandard  String?  @map("completion_standard")
-  educationPeriod     String?  @map("education_period")
-  contentInfo         String?  @map("content_info")
-  status              String   @default("ACTIVE") @map("status")
-  createdAt           DateTime @default(now()) @map("created_at")
-  updatedAt           DateTime @updatedAt @map("updated_at")
+  courseId           String    @id @map("course_id")
+  courseName         String    @map("course_name")
+  courseType         String    @map("course_type")
+  targetRole         String    @map("target_role")
+  completionStandard String?   @map("completion_standard")
+  educationPeriod    String?   @map("education_period")
+  contentInfo        String?   @map("content_info")
+  status             String    @default("ACTIVE") @map("status")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
 
   @@map("education_course")
 }
