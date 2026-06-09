@@ -2,18 +2,39 @@ import Link from "next/link";
 
 const MENU_CARDS = [
   {
-    title: "사용자 등록 신청",
-    description: "UC-U01 · 연구활동종사자가 시스템 계정을 신청합니다.",
-    href: "/users/register",
+    title: "사용자관리",
+    description: "SS-U · 계정 신청·승인 및 사용자 목록을 관리합니다.",
+    href: "/users",
     color: "bg-blue-50 border-blue-200",
     icon: "👤",
   },
   {
-    title: "사용자 목록 조회",
-    description: "UC-U04 · 관리자가 등록된 사용자를 조건 검색합니다.",
-    href: "/users",
+    title: "연구실관리",
+    description: "SS-L · 연구실 기본정보를 등록·조회·관리합니다.",
+    href: "/labs",
     color: "bg-green-50 border-green-200",
+    icon: "🏫",
+  },
+  {
+    title: "점검관리",
+    description: "SS-I · 일상점검 수행 및 점검 이력을 관리합니다.",
+    href: "/inspections/history",
+    color: "bg-amber-50 border-amber-200",
     icon: "📋",
+  },
+  {
+    title: "화학물질관리",
+    description: "SS-C · 화학물질 정보를 등록·검색·조회합니다.",
+    href: "/chemicals",
+    color: "bg-rose-50 border-rose-200",
+    icon: "⚗️",
+  },
+  {
+    title: "안전교육관리",
+    description: "SS-E · 안전교육 과정을 개설·관리합니다.",
+    href: "/education/courses",
+    color: "bg-violet-50 border-violet-200",
+    icon: "🎓",
   },
 ];
 
@@ -27,16 +48,15 @@ export default function HomePage() {
             연구실안전관리시스템
           </h1>
           <p className="text-gray-500 text-sm">
-            한국해양대학교 객체지향소프트웨어공학 1팀 | 사용자관리 서브시스템
-            (SS-U)
+            한국해양대학교 객체지향소프트웨어공학 1팀 | 통합 관리 시스템
           </p>
           <p className="text-gray-400 text-xs mt-1">
-            담당: 차유비 · chayubi_사용자관리
+            5개 서브시스템 · 사용자 / 연구실 / 점검 / 화학물질 / 안전교육
           </p>
         </div>
 
         {/* 메뉴 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
           {MENU_CARDS.map((card) => (
             <Link key={card.href} href={card.href}>
               <div
@@ -55,14 +75,15 @@ export default function HomePage() {
         {/* 시스템 정보 */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <h3 className="text-sm font-semibold text-gray-700 mb-3">
-            사용자관리 서브시스템 (SS-U) 정보
+            서브시스템 개요
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
             {[
-              { label: "서브시스템 ID", value: "SS-U" },
-              { label: "관련 UC", value: "U01 ~ U05" },
-              { label: "담당자", value: "차유비" },
-              { label: "DB 테이블", value: "USER_INFO" },
+              { label: "사용자관리", value: "SS-U" },
+              { label: "연구실관리", value: "SS-L" },
+              { label: "점검관리", value: "SS-I" },
+              { label: "화학물질관리", value: "SS-C" },
+              { label: "안전교육관리", value: "SS-E" },
             ].map(({ label, value }) => (
               <div key={label} className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-400 mb-1">{label}</p>
