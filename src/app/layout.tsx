@@ -31,6 +31,7 @@ export default function RootLayout({
                 { href: "/inspections/history", label: "점검관리" },
                 { href: "/chemicals", label: "화학물질관리" },
                 { href: "/education/courses", label: "안전교육관리" },
+                { href: "/waste/status", label: "폐기물관리" },
               ].map(({ href, label }) => (
                 <a
                   key={href}

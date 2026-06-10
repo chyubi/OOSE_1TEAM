@@ -36,6 +36,13 @@ const MENU_CARDS = [
     color: "bg-violet-50 border-violet-200",
     icon: "🎓",
   },
+  {
+    title: "폐기물관리",
+    description: "SS-W · 폐기물 배출 신청 및 처리현황을 관리합니다.",
+    href: "/waste/status",
+    color: "bg-teal-50 border-teal-200",
+    icon: "♻️",
+  },
 ];
 
 export default function HomePage() {
@@ -51,7 +58,7 @@ export default function HomePage() {
             한국해양대학교 객체지향소프트웨어공학 1팀 | 통합 관리 시스템
           </p>
           <p className="text-gray-400 text-xs mt-1">
-            5개 서브시스템 · 사용자 / 연구실 / 점검 / 화학물질 / 안전교육
+            6개 서브시스템 · 사용자 / 연구실 / 점검 / 화학물질 / 안전교육 / 폐기물
           </p>
         </div>
 
@@ -77,13 +84,14 @@ export default function HomePage() {
           <h3 className="text-sm font-semibold text-gray-700 mb-3">
             서브시스템 개요
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 text-center">
             {[
               { label: "사용자관리", value: "SS-U" },
               { label: "연구실관리", value: "SS-L" },
               { label: "점검관리", value: "SS-I" },
               { label: "화학물질관리", value: "SS-C" },
               { label: "안전교육관리", value: "SS-E" },
+              { label: "폐기물관리", value: "SS-W" },
             ].map(({ label, value }) => (
               <div key={label} className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-400 mb-1">{label}</p>
