@@ -17,9 +17,12 @@ export default function RootLayout({
         <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-blue-700 font-bold text-lg tracking-tight">
+              <a
+                href="/"
+                className="text-blue-700 font-bold text-lg tracking-tight hover:text-blue-800 transition-colors"
+              >
                 🔬 연구실안전관리시스템
-              </span>
+              </a>
             </div>
             <nav className="flex items-center gap-1">
               {[
