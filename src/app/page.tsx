@@ -6,42 +6,36 @@ const MENU_CARDS = [
     description: "SS-U · 계정 신청·승인 및 사용자 목록을 관리합니다.",
     href: "/users",
     color: "bg-blue-50 border-blue-200",
-    icon: "👤",
   },
   {
     title: "연구실관리",
     description: "SS-L · 연구실 기본정보를 등록·조회·관리합니다.",
     href: "/labs",
     color: "bg-green-50 border-green-200",
-    icon: "🏫",
   },
   {
     title: "점검관리",
     description: "SS-I · 일상점검 수행 및 점검 이력을 관리합니다.",
     href: "/inspections/history",
     color: "bg-amber-50 border-amber-200",
-    icon: "📋",
   },
   {
     title: "화학물질관리",
     description: "SS-C · 화학물질 정보를 등록·검색·조회합니다.",
     href: "/chemicals",
     color: "bg-rose-50 border-rose-200",
-    icon: "⚗️",
   },
   {
     title: "안전교육관리",
     description: "SS-E · 안전교육 과정을 개설·관리합니다.",
     href: "/education/courses",
     color: "bg-violet-50 border-violet-200",
-    icon: "🎓",
   },
   {
     title: "폐기물관리",
     description: "SS-W · 폐기물 배출 신청 및 처리현황을 관리합니다.",
     href: "/waste/status",
     color: "bg-teal-50 border-teal-200",
-    icon: "♻️",
   },
 ];
 
@@ -69,7 +63,6 @@ export default function HomePage() {
               <div
                 className={`h-full rounded-xl border p-6 hover:shadow-md transition-all cursor-pointer ${card.color}`}
               >
-                <div className="text-3xl mb-3">{card.icon}</div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-1">
                   {card.title}
                 </h2>

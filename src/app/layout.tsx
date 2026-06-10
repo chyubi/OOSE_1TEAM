@@ -21,7 +21,7 @@ export default function RootLayout({
                 href="/"
                 className="text-blue-700 font-bold text-lg tracking-tight hover:text-blue-800 transition-colors"
               >
-                🔬 연구실안전관리시스템
+                연구실안전관리시스템
               </a>
             </div>
             <nav className="flex items-center gap-1">
