@@ -65,9 +65,9 @@ export default function HomePage() {
         {/* 메뉴 카드 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
           {MENU_CARDS.map((card) => (
-            <Link key={card.href} href={card.href}>
+            <Link key={card.href} href={card.href} className="block h-full">
               <div
-                className={`rounded-xl border p-6 hover:shadow-md transition-all cursor-pointer ${card.color}`}
+                className={`h-full rounded-xl border p-6 hover:shadow-md transition-all cursor-pointer ${card.color}`}
               >
                 <div className="text-3xl mb-3">{card.icon}</div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-1">
