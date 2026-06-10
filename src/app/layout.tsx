@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "연구실안전관리시스템 | 한국해양대학교",
-  description: "한국해양대학교 연구실 안전관리 웹 기반 업무지원 시스템",
+  title: "연구실안전관리시스템",
+  description: "연구실 안전관리 웹 기반 업무지원 시스템",
 };
 
 export default function RootLayout({
@@ -19,9 +19,6 @@ export default function RootLayout({
             <div className="flex items-center gap-3">
               <span className="text-blue-700 font-bold text-lg tracking-tight">
                 🔬 연구실안전관리시스템
-              </span>
-              <span className="text-xs text-gray-400 border border-gray-200 px-2 py-0.5 rounded-full">
-                한국해양대학교
               </span>
             </div>
             <nav className="flex items-center gap-1">

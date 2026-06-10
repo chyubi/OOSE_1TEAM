@@ -55,7 +55,7 @@ export default function HomePage() {
             연구실안전관리시스템
           </h1>
           <p className="text-gray-500 text-sm">
-            한국해양대학교 객체지향소프트웨어공학 1팀 | 통합 관리 시스템
+            객체지향소프트웨어공학 1팀 | 통합 관리 시스템
           </p>
           <p className="text-gray-400 text-xs mt-1">
             6개 서브시스템 · 사용자 / 연구실 / 점검 / 화학물질 / 안전교육 / 폐기물
