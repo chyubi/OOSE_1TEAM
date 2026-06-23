@@ -220,7 +220,7 @@ export default function AdminUsersPage() {
               onChange={(e) => setRejectReason(e.target.value)}
               rows={3}
               placeholder="반려 사유를 입력해 주세요."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-400 resize-none mb-4"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-400 resize-none mb-4"
             />
             <div className="flex gap-3">
               <button

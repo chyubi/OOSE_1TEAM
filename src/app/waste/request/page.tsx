@@ -123,7 +123,7 @@ export default function WasteRequestPage() {
                 value={form.labId}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">선택</option>
                 {LAB_OPTIONS.map((lab) => (
@@ -144,7 +144,7 @@ export default function WasteRequestPage() {
                 onChange={handleChange}
                 required
                 placeholder="예: U-2024-001"
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -157,7 +157,7 @@ export default function WasteRequestPage() {
                 value={form.wasteType}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">선택</option>
                 {WASTE_TYPES.map((type) => (
@@ -182,14 +182,14 @@ export default function WasteRequestPage() {
                   onChange={handleChange}
                   required
                   placeholder="예: 12.5"
-                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <select
                   name="unit"
                   value={form.unit}
                   onChange={handleChange}
                   required
-                  className="w-24 rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-24 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {UNIT_OPTIONS.map((unit) => (
                     <option key={unit} value={unit}>

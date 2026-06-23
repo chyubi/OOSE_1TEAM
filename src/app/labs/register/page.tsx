@@ -157,7 +157,7 @@ export default function LabRegisterView() {
                   placeholder="예) LAB-001"
                   maxLength={20}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <p className="text-xs text-gray-400 mt-1">최대 20자</p>
               </FormField>
@@ -171,7 +171,7 @@ export default function LabRegisterView() {
                   placeholder="예) 해양공학 실험실"
                   maxLength={100}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <p className="text-xs text-gray-400 mt-1">최대 100자</p>
               </FormField>
@@ -187,7 +187,7 @@ export default function LabRegisterView() {
                 placeholder="예) 공학관 3층 301호"
                 maxLength={200}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </FormField>
 
@@ -199,7 +199,7 @@ export default function LabRegisterView() {
                   value={labForm.labType}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="">선택하세요</option>
                   {labTypeS.map((t) => (
@@ -216,7 +216,7 @@ export default function LabRegisterView() {
                   value={labForm.mgmtLevel}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="">선택하세요</option>
                   {safetyLevelS.map((l) => (
@@ -237,7 +237,7 @@ export default function LabRegisterView() {
                 onChange={handleChange}
                 placeholder="예) 051-410-1234"
                 maxLength={50}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </FormField>
           </div>
@@ -259,7 +259,7 @@ export default function LabRegisterView() {
                   value={labForm.floorPlan}
                   onChange={handleChange}
                   placeholder="예) /uploads/layout/lab001.jpg"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </FormField>
 
@@ -270,7 +270,7 @@ export default function LabRegisterView() {
                   value={labForm.photo}
                   onChange={handleChange}
                   placeholder="예) /uploads/photo/lab001.jpg"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </FormField>
             </div>

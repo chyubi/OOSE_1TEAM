@@ -177,7 +177,7 @@ export default function LabQueryView() {
                 value={searchCond.labName}
                 onChange={handleSearchChange}
                 placeholder="연구실명 검색"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -190,7 +190,7 @@ export default function LabQueryView() {
                 value={searchCond.location}
                 onChange={handleSearchChange}
                 placeholder="위치 검색"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -201,7 +201,7 @@ export default function LabQueryView() {
                 name="labType"
                 value={searchCond.labType}
                 onChange={handleSearchChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">전체</option>
                 {labTypeS.map((t) => (
@@ -219,7 +219,7 @@ export default function LabQueryView() {
                 name="mgmtLevel"
                 value={searchCond.mgmtLevel}
                 onChange={handleSearchChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">전체</option>
                 {safetyLevelS.map((l) => (

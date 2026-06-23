@@ -216,7 +216,7 @@ export default function InspectionPerformPage() {
                     setForm((p) => ({ ...p, laboratoryId: e.target.value }))
                   }
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">연구실 선택</option>
                   {LAB_OPTIONS.map((l) => (
@@ -237,7 +237,7 @@ export default function InspectionPerformPage() {
                     setForm((p) => ({ ...p, inspectionDate: e.target.value }))
                   }
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -249,7 +249,7 @@ export default function InspectionPerformPage() {
                   onChange={(e) =>
                     setForm((p) => ({ ...p, inspectionMethod: e.target.value }))
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="육안점검">육안점검</option>
                   <option value="기기점검">기기점검</option>
@@ -267,7 +267,7 @@ export default function InspectionPerformPage() {
                     setForm((p) => ({ ...p, writerId: e.target.value }))
                   }
                   placeholder="사용자 ID 입력"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -376,7 +376,7 @@ export default function InspectionPerformPage() {
                     ? "부적합 항목의 사유를 입력해 주세요."
                     : "부적합 항목이 없으면 생략 가능합니다."
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
             </div>
             <div>
@@ -390,7 +390,7 @@ export default function InspectionPerformPage() {
                 }
                 rows={2}
                 placeholder="기타 특이사항을 입력해 주세요."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
             </div>
           </div>

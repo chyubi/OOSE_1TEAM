@@ -102,7 +102,7 @@ export default function UserListPage() {
                   setCondition((p) => ({ ...p, keyword: e.target.value }))
                 }
                 placeholder="이름 또는 이메일"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -117,7 +117,7 @@ export default function UserListPage() {
                     role: e.target.value as UserRole | "",
                   }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">전체</option>
                 {Object.entries(ROLE_LABELS).map(([v, l]) => (
@@ -138,7 +138,7 @@ export default function UserListPage() {
                   setCondition((p) => ({ ...p, department: e.target.value }))
                 }
                 placeholder="학부명 입력"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>

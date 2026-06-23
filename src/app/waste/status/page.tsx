@@ -123,7 +123,7 @@ export default function WasteStatusPage() {
                   }))
                 }
                 placeholder="LAB-101"
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -139,7 +139,7 @@ export default function WasteStatusPage() {
                     wasteType: event.target.value,
                   }))
                 }
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">전체</option>
                 {WASTE_TYPES.map((type) => (
@@ -162,7 +162,7 @@ export default function WasteStatusPage() {
                     status: event.target.value as WasteRequestStatus | "",
                   }))
                 }
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">전체</option>
                 {Object.entries(STATUS_LABELS).map(([value, label]) => (
