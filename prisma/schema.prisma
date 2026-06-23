@@ -34,15 +34,7 @@ model LAB_INFO {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime? @updatedAt @map("updated_at")
 
-<<<<<<< HEAD
   @@map("lab_info")
-=======
-  inspections   DAILY_INSPECTION[]
-
-  @@index([LAB_TYPE],   name: "IDX_LAB_TYPE")
-  @@index([MGMT_LEVEL], name: "IDX_LAB_MGMT")
-  @@map("LAB_INFO")
->>>>>>> origin/ukdong_폐기물관리
 }
 
 model TB_CHEMICAL {
@@ -59,7 +51,6 @@ model TB_CHEMICAL {
 }
 
 model WASTE_REQUEST {
-<<<<<<< HEAD
   requestId   String    @id @map("request_id")
   labId       String    @map("lab_id")
   requesterId String    @map("requester_id")
@@ -71,21 +62,6 @@ model WASTE_REQUEST {
   processedAt DateTime? @map("processed_at")
 
   @@map("waste_request")
-=======
-  REQUEST_ID       BigInt   @id @default(autoincrement())
-  LABORATORY_ID    String   @db.VarChar(20)
-  WASTE_TYPE       String   @db.VarChar(50)
-  EMISSION_AMOUNT  Decimal  @db.Decimal(10, 3)
-  EMISSION_DATE    DateTime @db.Date
-  STORAGE_LOCATION String   @db.VarChar(100)
-  REQUEST_REASON   String?  @db.Text
-  REQUEST_STATUS   String   @default("REQUESTED") @db.VarChar(20)
-  REQUEST_DATETIME DateTime @default(now())
-
-  @@index([LABORATORY_ID, REQUEST_STATUS], name: "IX_WR_STATUS")
-  @@index([EMISSION_DATE],                 name: "IX_WR_DATE")
-  @@map("WASTE_REQUEST")
->>>>>>> origin/ukdong_폐기물관리
 }
 
 model DAILY_INSPECTION {
@@ -117,13 +93,5 @@ model EDUCATION_COURSE {
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
 
-<<<<<<< HEAD
   @@map("education_course")
 }
-=======
-  @@index([EDUCATION_TYPE, TARGET_ROLE], name: "IX_EC_TYPE_TARGET")
-  @@index([START_DATE, END_DATE],        name: "IX_EC_PERIOD")
-  @@index([COURSE_STATUS],               name: "IX_EC_STATUS")
-  @@map("EDUCATION_COURSE")
-}
->>>>>>> origin/ukdong_폐기물관리
