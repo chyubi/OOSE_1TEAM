@@ -26,7 +26,7 @@ model LAB_INFO {
   labName       String    @map("lab_name")
   location      String    @map("location")
   labType       String    @map("lab_type")
-  contactPerson String    @map("contact_person")
+  contactPerson String?    @map("contact_person")
   phone         String?   @map("phone")
   safetyLevel   String?   @map("safety_level")
   floorPlan     String?   @map("floor_plan")

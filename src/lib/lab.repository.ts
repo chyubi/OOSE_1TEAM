@@ -17,10 +17,8 @@ export class LabRepository {
         labType: lab.labType,
         contactPerson: lab.contactPerson ?? null,
         safetyLevel: lab.mgmtLevel,
-        ORG_ID: lab.orgId,
-        floorPlan: lab.safetySign ?? null,
-        LAYOUT_IMG: lab.layoutImage ?? null,
-        PHOTO: lab.photo ?? null,
+        floorPlan: lab.floorPlan ?? null,
+        photo: lab.photo ?? null,
       },
     });
 
@@ -47,7 +45,7 @@ export class LabRepository {
         ...(cond.labName && {
           labName: { contains: cond.labName, mode: "insensitive" },
         }),
-        ...(cond.labType && { labType: cond.labType }),
+        ...(cond.labType && { labType: { equals: cond.labType } }),
         ...(cond.mgmtLevel && { safetyLevel: cond.mgmtLevel }),
         ...(cond.location && {
           location: { contains: cond.location, mode: "insensitive" },
@@ -86,10 +84,8 @@ export class LabRepository {
       labType: record.labType,
       contactPerson: record.contactPerson ?? undefined,
       mgmtLevel: record.safetyLevel,
-      orgId: record.ORG_ID,
-      safetySign: record.floorPlan ?? undefined,
-      layoutImage: record.LAYOUT_IMG ?? undefined,
-      photo: record.PHOTO ?? undefined,
+      floorPlan: record.floorPlan ?? undefined,
+      photo: record.photo ?? undefined,
       createdAt: record.createdAt.toISOString(),
       updatedAt: record.updatedAt?.toISOString(),
     };
